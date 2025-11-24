@@ -22,15 +22,16 @@ These CronJobs replace the traditional cron entries that were previously configu
 
 ### 2. Compressed Log Cleanup (`compressed-log-cleanup-cronjob.yaml`)
 
-- **Schedule**: Daily at midnight (0 0 * * *)
+- **Schedule**: Daily at 12:30 AM (30 0 * * *)
 - **Purpose**: Removes old compressed log files
 - **Action**: Deletes `.gz` files older than 7 days
+- **Note**: Runs 30 minutes after compression to avoid race conditions
 
 ### 3. General Log Cleanup (`general-log-cleanup-cronjob.yaml`)
 
 - **Schedule**: Daily at 1:30 AM (30 1 * * *)
-- **Purpose**: Removes very old log files
-- **Action**: Deletes all files older than 30 days
+- **Purpose**: Safety cleanup for very old log files
+- **Action**: Deletes all files older than 30 days (catches any files missed by other jobs)
 
 ## NFS Configuration
 
