@@ -23,7 +23,7 @@ spec:
                   /FS_MILKYWAY_LOG/legacy-portal-apis/logs/service/MONGO
           containers:
             - name: log-compressor
-              image: alpine:latest
+              image: alpine:3.19
               command:
                 - /bin/sh
                 - -c
