@@ -15,10 +15,10 @@ jobs:
     name: Deploy to self-hosted Kubernetes
     runs-on: self-hosted
     env:
-      APP_NAME: banrai-api
-      DEPLOYMENT_REPO: https://github.com/meekode/deployments
-      DEPLOYMENT_PATH: deployments/banrai-api/
-      NAMESPACE: meekode
+      APP_NAME: baanrai
+      DEPLOYMENT_REPO: https://github.com/gattolab/deployments
+      DEPLOYMENT_PATH: deployments/baanrai/
+      NAMESPACE: gattolab
 
     steps:
       - name: Checkout app repo
@@ -69,7 +69,7 @@ jobs:
       - name: Checkout deployment manifests
         uses: actions/checkout@v4
         with:
-          repository: meekode/deployments
+          repository: gattolab/deployments
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           path: deployment-repo
 
