@@ -1,0 +1,44 @@
+name: CI Build & Push Image
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - '.gitignore'
+      - '.github/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Push Docker Image
+    runs-on: self-hosted
+
+    env:
+      APP_NAME: baanrai
+
+    steps:
+      - name: Checkout app repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build & Push to GHCR
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/${{ env.APP_NAME }}
+          IMAGE_TAG=$(git rev-parse --short HEAD)
+
+          if docker manifest inspect $IMAGE_NAME:$IMAGE_TAG > /dev/null 2>&1; then
+            echo "Image $IMAGE_NAME:$IMAGE_TAG already exists, skipping build"
+          else
+            echo "Building and pushing $IMAGE_NAME:$IMAGE_TAG"
+            docker build -t $IMAGE_NAME:$IMAGE_TAG .
+            docker push $IMAGE_NAME:$IMAGE_TAG
+          fi
+
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:latest
