@@ -1,0 +1,16 @@
+name: Microservice CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  ci:
+    uses: gattolab/ci-workflows/.github/workflows/reusable-ci.yml@v1
+    with:
+      image_name: ghcr.io/gattolab/baanrai
+      languages: '["go"]'
+    secrets: inherit
