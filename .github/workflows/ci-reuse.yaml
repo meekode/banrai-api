@@ -9,7 +9,7 @@ on:
 
 jobs:
   ci:
-    uses: gattolab/ci-workflows/.github/workflows/reusable-workflow-ci.yml@v1
+    uses: gattolab/ci-workflows/.github/workflows/reusable-workflow-ci.yml@e8517177bac8ec508930c2a4c12a08728eac73bb
     with:
       image_name: ghcr.io/gattolab/baanrai
       languages: '["go"]'
